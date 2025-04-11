@@ -1,0 +1,52 @@
+
+mysql> use ordermanagement;
+Database changed
+mysql> CREATE TABLE Users (
+    ->   userId INT PRIMARY KEY,
+    ->   username VARCHAR(50),
+    ->   password VARCHAR(50),
+    ->   role VARCHAR(10)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Products (
+    ->   productId INT PRIMARY KEY,
+    ->   productName VARCHAR(100),
+    ->   description TEXT,
+    ->   price DOUBLE,
+    ->   quantityInStock INT,
+    ->   type VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE Electronics (
+    ->   productId INT PRIMARY KEY,
+    ->   brand VARCHAR(50),
+    ->   warrantyPeriod INT,
+    ->   FOREIGN KEY (productId) REFERENCES Products(productId)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Clothing (
+    ->   productId INT PRIMARY KEY,
+    ->   size VARCHAR(10),
+    ->   color VARCHAR(20),
+    ->   FOREIGN KEY (productId) REFERENCES Products(productId)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Orders (
+    ->   orderId INT PRIMARY KEY AUTO_INCREMENT,
+    ->   userId INT,
+    ->   FOREIGN KEY (userId) REFERENCES Users(userId)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE OrderDetails (
+    ->   orderId INT,
+    ->   productId INT,
+    ->   FOREIGN KEY (orderId) REFERENCES Orders(orderId),
+    ->   FOREIGN KEY (productId) REFERENCES Products(productId)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
