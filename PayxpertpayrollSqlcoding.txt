@@ -1,0 +1,48 @@
+CREATE TABLE Employee (
+    EmployeeID INT NOT NULL AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    DateOfBirth DATE NOT NULL,
+    Gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    PhoneNumber VARCHAR(15) NOT NULL UNIQUE,
+    Address TEXT NOT NULL,
+    Position VARCHAR(100) NOT NULL,
+    JoiningDate DATE NOT NULL,
+    TerminationDate DATE,
+    PRIMARY KEY (EmployeeID)
+);
+
+CREATE TABLE Tax (
+    TaxID INT NOT NULL AUTO_INCREMENT,
+    EmployeeID INT NOT NULL,
+    TaxYear INT NOT NULL,
+    TaxableIncome DECIMAL(12,2) NOT NULL,
+    TaxAmount DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (TaxID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+CREATE TABLE Payroll (
+    PayrollID INT NOT NULL AUTO_INCREMENT,
+    EmployeeID INT NOT NULL,
+    PayPeriodStartDate DATE NOT NULL,
+    PayPeriodEndDate DATE NOT NULL,
+    BasicSalary DECIMAL(10,2) NOT NULL,
+    OvertimePay DECIMAL(10,2) DEFAULT 0.00,
+    Deductions DECIMAL(10,2) DEFAULT 0.00,
+    NetSalary DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (PayrollID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+CREATE TABLE FinancialRecord (
+    RecordID INT NOT NULL AUTO_INCREMENT,
+    EmployeeID INT NOT NULL,
+    RecordDate DATE NOT NULL,
+    Description TEXT NOT NULL,
+    Amount DECIMAL(12,2) NOT NULL,
+    RecordType ENUM('Income','Expense','Tax Payment') NOT NULL,
+    PRIMARY KEY (RecordID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
